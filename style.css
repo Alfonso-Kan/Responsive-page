@@ -1,0 +1,199 @@
+/* 
+BOX-SIZING
+Cuando nosotros agregamos un padding o border esto se suma al width y height
+de la figura, puede ocurrir que nosotros tengamos tres elementos hijos dentro
+de un contenedor y al agregarle las dimensiones sobresalgan del contenedor. Existen dos formas de solucinarlo:
+
+-content-box: Da el box sizing predeterminado. Si establecemos un ancho de 
+              elemento de 100 px el box-sizing tendrá 100px y se le agregará 
+              al border o padding el ancho renderizado, así el elemento tendrá
+              más de 100 px.
+-border-box: Le dice al navegador preguntar por cualquier border y padding en los
+              valores que tu especificaste para el width y height de un elemento. Si asignamos el ancho
+              de un elemento a 100px, 100px incluirá cualquier borde o padding
+              y el content box disminuirá para absorber el ancho extra. Es el 
+              estilo por default que los navegadores usan para las <table>, <select> y <button>
+              y para los <input> los cuales son tupo radio, checkbox, reset, button
+              submit, color, search.
+*/
+
+* {
+    margin: 0;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: sans-serif;
+    background: #000 url(nublado.jpg);
+    background-size: cover;
+    background-attachment: fixed; /*para que la imagen del fondo se mantenga statica al momento de hacer scroll*/
+}
+
+.contenedor {
+    margin: auto;
+    width: 90%;
+    max-width: 1000px;
+    display: flex;/*Con está propiedad se colocan uno al lado del otro*/
+    flex-direction: row; /*En fila*/
+    flex-wrap: wrap; /*Lo acomoda según sus dimensiones header ocupa el 100%
+    y el resto se acomoda justo abajo*/
+}
+
+header {
+    width: 100%; /*toma como el 100% el max-width del .contenedor*/
+    padding: 50px 0;
+    display: flex;
+    /* flex-direction: wrap; */
+    justify-content: space-between;/*El logo pasa a la izquierda y el navegador a la derecha*/
+    align-items: center;
+}
+
+header .logo img {
+    border-radius: 20px;
+}
+
+header .menu a {
+    color: #fff;
+    text-decoration: none;
+    margin-right: 40px; /*por esta razon no se centran completamente los enlaces*/
+    font-size: 18px;
+}
+
+header .menu a:hover {
+    text-decoration: underline;
+}
+
+.main {
+    background: #fff;
+    padding: 20px;
+    width: 70%;
+}
+
+.main article .thumb {
+    margin-bottom: 20px;
+}
+
+.main article .thumb img {
+    width: 100%;
+    vertical-align: top;
+}
+
+.main article h2 {
+    margin-bottom: 20px;
+    font-weight: normal;
+    font-size: 32px;
+}
+
+.main article p {
+    margin-bottom: 20px;
+    font-size: 14px;
+    line-height: 27px; /*Espaciado*/
+}
+
+aside {
+    width: 30%; /*se le da este valor porque el main es 100%*/
+    background: #537dca;
+    padding: 20px;
+    /* PARA SEPARAR LOS ANUNCIOS AD */
+    display: flex; /*habilitamos el flexbox*/
+    flex-direction: column;/*Con esto nos queda como lo teniamos antes*/
+    flex-wrap: wrap;
+    justify-content: space-between; /*para que se separen los AD a los extremos*/
+}
+
+aside .ad {
+    font-size: 30px;
+    text-align: center;
+    color: #fff;
+    padding: 50px 0; /*Esto hace que nos quede el espaciado entre ambos*/
+    background: #4264a2;
+    /* margin-bottom: 20px; para retirar el margen sobrante de abajo*/
+}
+
+footer {
+    margin: 20px 0;
+    background: rgba(255,255,255, .2);
+    padding: 20px;
+    width: 100%;
+    color: #fff;
+    display: flex; /*Activar la propiedad para que se coloque el parrafo al
+    lado de los demás enlaces*/
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between; /*Para que se separe el nombre y las redes a los extremos*/
+}
+
+footer .redes-sociales a {
+    color: #fff;
+    text-decoration: underline;
+    margin-left: 20px;
+}
+
+footer .redes-sociales a:hover {
+    text-decoration: none;
+}
+
+/* PARA HACERLO ADAPTABLE A CELULARES */
+/* se hace esto para que cuando la pantalla tenga 800px los anuncios
+pasen por debajo del main */
+ @media screen and (max-width:800px) {
+    .main {
+        width: 100%;
+    }
+    aside {
+        width: 100%;
+        flex-direction: row;
+    }
+
+    aside .ad {
+    width: 40%; 
+    }
+ }
+
+ @media screen and (max-width:609px) {
+    header { /*al parecer no queria responder porque tenia que darle a refrescar*/
+        flex-direction: column;
+        padding-bottom: 20px;
+    }
+
+    header .menu {
+        width: 100%;
+        background: rgba(255,255,255, .2);
+        text-align: center;
+        padding: 20px;
+    }
+/* con la opcion de abajo arreglamos el margen de los laterales ya que 
+habiamos colocado que los enlaces tengan un margen a la derecha de 40px */
+    header .menu a {
+        margin: 0 20px;
+    }
+
+    header .logo {
+        margin-bottom: 20px;
+    }
+
+    /* para evitar que los enlaces se junten demasiado con el parrafo */
+    footer {
+       flex-direction: column;
+       text-align: center; 
+    }
+
+    /* Esto hace que cuano llegue a 609px aparexcan primero las redes
+    sociales. no recuerdo haber visto la propiedad order antes */
+    footer .autor {
+        order: 2;
+    }
+    footer .redes-sociales {
+        order: 1;
+    }
+
+    /* para quitar los anuncios pasando los 400px */
+    @media screen and (max-width: 400px) {
+        aside {
+            display: none;
+        }
+    }
+ }
